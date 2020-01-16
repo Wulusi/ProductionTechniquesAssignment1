@@ -36,4 +36,10 @@ public class FunTimeTests : MonoBehaviour
         Debug.Log(" Man he ate too much cheeseburgers");
         yield return null; 
     }
+
+    private void EatBurgers()
+    {
+
+        //Get some Burgers and eat it here :D
+    }
 }
