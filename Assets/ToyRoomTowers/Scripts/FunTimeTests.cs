@@ -6,7 +6,7 @@ using UnityEngine;
 public class FunTimeTests : MonoBehaviour
 {
 
-    public const string SayStuff = " A large cat Ate who was very hungry and thirsty one two three four: ";
+    public const string SayStuff = " Different Strokes are pretty cool and all etc : ";
     public const string Orange = "Oranges";
     public float CheeseBugerCount, MaxChzCount;
     // Start is called before the first frame update
