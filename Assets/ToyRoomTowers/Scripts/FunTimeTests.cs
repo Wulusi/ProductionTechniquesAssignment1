@@ -6,11 +6,7 @@ using UnityEngine;
 public class FunTimeTests : MonoBehaviour
 {
 
-<<<<<<< HEAD
     public const string SayStuff = " He is secreting mucus: ";
-=======
-    public const string SayStuff = " A large cat with a really wretched kind of personality ate: ";
->>>>>>> LevelDesign
     public const string Orange = "Oranges";
     public float CheeseBugerCount, MaxChzCount;
     // Start is called before the first frame update
