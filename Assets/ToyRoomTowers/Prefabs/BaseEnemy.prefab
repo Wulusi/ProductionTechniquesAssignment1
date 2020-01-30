@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa44ac9b6e6489b488b79fa2f52e107d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navAgent: {fileID: 2907596800758118185}
 --- !u!65 &170053052762830074
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,7 +114,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804326185692691157}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
