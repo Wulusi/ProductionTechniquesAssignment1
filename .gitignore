@@ -9,7 +9,6 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Aa]ssets/Models/
 
 #Ignore all .meta file
 *.meta
@@ -62,3 +61,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Assets/Models/3.Motocycle/Texture/Motocycle_Texture.psd
+Assets/Models/2.BlueCar/Texture/BlueCar_Texture.psd
+Assets/Models/1.RedTruck/Texture/RedTruck_Texture.psd
+Assets/Models/4.RetroCar/Texture/RetroCar_Texture_4096.png
+Assets/Models/4.RetroCar/Texture/RetroCar_Texture_3072.png
