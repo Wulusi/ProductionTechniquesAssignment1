@@ -24,9 +24,12 @@ public class VisionDetection : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        owner.targets.Add(other.gameObject);
+        if (!owner.targets.Contains(other.gameObject))
+        {
+            owner.targets.Add(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)

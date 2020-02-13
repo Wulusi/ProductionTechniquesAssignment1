@@ -14,9 +14,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     public Transform barrel;
 
     public float rotateSpeed;
-
     public bool routineActive;
-
     public Vector3 targetDir;
 
     // Start is called before the first frame update
@@ -36,6 +34,7 @@ public abstract class TowerBehaviour : MonoBehaviour
         while (true)
         {
             TurretStates();
+            CheckTarget();
             yield return null;
         }
 
@@ -78,41 +77,46 @@ public abstract class TowerBehaviour : MonoBehaviour
         }
     }
 
+    public void CheckTarget()
+    {
+        if (CurrentTarget == null)
+        {
+            targets.Remove(CurrentTarget);
+
+            if (targets.Count > 0)
+            {
+                CurrentTarget = targets[0];
+            }
+        }
+        else if (!CurrentTarget.activeSelf)
+        {
+            targets.Remove(CurrentTarget);
+        }
+    }
+
     public virtual void LookAtTarget()
     {
-        //for (int i = 0; i < targets.Count - 1; i++)
-        {
-            Vector3 targetDir = targets[0].transform.position - transform.position;
-            CurrentTarget = targets[0];
-            Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
-            barrel.rotation = Quaternion.LookRotation(newDir.normalized);
-        }
+        Vector3 targetDir = targets[0].transform.position - transform.position;
+        CurrentTarget = targets[0];
+        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
+        barrel.rotation = Quaternion.LookRotation(newDir.normalized);
     }
 
 
     public virtual void SearchTarget()
     {
-        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
+        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, Mathf.Lerp(0, rotateSpeed, Time.deltaTime), 0.0f);
 
-        float angle = Vector3.Angle(targetDir, barrel.forward);
+        float angle = Vector3.Angle(barrel.forward, new Vector3(targetDir.x, 0, targetDir.z));
 
         Debug.Log("angle is " + angle);
 
-        if (angle < 4f || targetDir == Vector3.zero)
+        if (angle < 0.1f || targetDir == Vector3.zero)
         {
             targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
-
         }
-        Debug.DrawLine(this.transform.position + barrel.forward, this.transform.position + targetDir, Color.red);
-        Debug.DrawLine(this.transform.position + barrel.forward, barrel.position, Color.blue);
 
-        barrel.rotation = Quaternion.LookRotation(new Vector3(Mathf.Clamp(newDir.x,-20,20),newDir.y,0));
-
-        //barrel.rotation = newDir;
-
-        //this.transform.rotate)
-
-        //barrel.rotation = Quaternion.Lerp(barrel.rotation, Quaternion.Euler(Mathf.Clamp(targetDir.x, -20, 20), targetDir.y, targetDir.z),10f);
+        barrel.rotation = Quaternion.LookRotation(new Vector3(newDir.normalized.x, 0, newDir.normalized.z));
     }
 
     public virtual void FireAtTarget()
