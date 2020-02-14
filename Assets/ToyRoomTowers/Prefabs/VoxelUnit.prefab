@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1168869695298836507}
   - component: {fileID: 935666586229486029}
   - component: {fileID: 5855435409895339016}
+  - component: {fileID: 2055285788349143754}
   - component: {fileID: 5170991400856897164}
   m_Layer: 0
   m_Name: VoxelUnit
@@ -104,6 +105,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6532426a3c0e44aac35141b5b62993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2055285788349143754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4655852895731681644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae7dfd86c13bf9479d578587f630f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!208 &5170991400856897164

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class TowerBehaviour : MonoBehaviour
 {
-
     public enum TurretState { searching, firingtarget };
     public TurretState turretState;
 
@@ -50,7 +49,7 @@ public abstract class TowerBehaviour : MonoBehaviour
                 {
                     LookAtTarget();
 
-                    Debug.Log("Target Acquired");
+                    //Debug.Log("Target Acquired");
                     Vector3 Dir = (CurrentTarget.transform.position - transform.position);
                     float angle = Vector3.Angle(Dir, this.transform.forward);
 
@@ -61,7 +60,7 @@ public abstract class TowerBehaviour : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Searching for target");
+                    //Debug.Log("Searching for target");
                     CurrentTarget = null;
                     SearchTarget();
                 }
@@ -70,7 +69,7 @@ public abstract class TowerBehaviour : MonoBehaviour
 
             case TurretState.firingtarget:
 
-                Debug.Log("Firing Target");
+                //Debug.Log("Firing Target");
                 FireAtTarget();
                 //StartCoroutine(Countdown(1f));
                 break;
@@ -109,13 +108,12 @@ public abstract class TowerBehaviour : MonoBehaviour
 
         float angle = Vector3.Angle(barrel.forward, new Vector3(targetDir.x, 0, targetDir.z));
 
-        Debug.Log("angle is " + angle);
+        //Debug.Log("angle is " + angle);
 
         if (angle < 0.1f || targetDir == Vector3.zero)
         {
             targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
         }
-
         barrel.rotation = Quaternion.LookRotation(new Vector3(newDir.normalized.x, 0, newDir.normalized.z));
     }
 
@@ -136,7 +134,7 @@ public abstract class TowerBehaviour : MonoBehaviour
             {
                 //countdownImage.fillAmount = totalTime / duration;
                 totalTime += Time.deltaTime;
-                Debug.Log("Time" + totalTime);
+                //Debug.Log("Time" + totalTime);
                 //var integer = (int)totalTime; /* choose how to quantize this */
                 /* convert integer to string and assign to text */
                 yield return null;
