@@ -108,8 +108,6 @@ public abstract class TowerBehaviour : MonoBehaviour
 
         float angle = Vector3.Angle(barrel.forward, new Vector3(targetDir.x, 0, targetDir.z));
 
-        //Debug.Log("angle is " + angle);
-
         if (angle < 0.1f || targetDir == Vector3.zero)
         {
             targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
@@ -132,11 +130,7 @@ public abstract class TowerBehaviour : MonoBehaviour
             float totalTime = 0;
             while (totalTime <= duration)
             {
-                //countdownImage.fillAmount = totalTime / duration;
                 totalTime += Time.deltaTime;
-                //Debug.Log("Time" + totalTime);
-                //var integer = (int)totalTime; /* choose how to quantize this */
-                /* convert integer to string and assign to text */
                 yield return null;
             }
             routineActive = false;
