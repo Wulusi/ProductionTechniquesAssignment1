@@ -62,7 +62,6 @@ public class BuildAreaManager : MonoBehaviour
         else
         {
             disableOverlay();
-            //hit.collider.gameObject.GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.inactive;
         }
     }
 

@@ -1,15 +1,37 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class TileDisabler : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
+public class TileDisabler : MonoBehaviour
 {
     public enum Hoverstate { active, inactive }
     public Hoverstate hoverstate;
 
+    private BuildAreaManager owner;
+    public List<GameObject> UIElements = new List<GameObject>();
+
+    bool isSelected;
+
     public void Start()
     {
         StartCoroutine(checkState());
+        owner = GetComponentInParent<BuildAreaManager>();
+        isSelected = false;
+        GetUIElements();
+    }
+
+    private void GetUIElements()
+    {
+        var UIElementFromArray = GameObject.FindObjectsOfType<UiElementFollow>();
+
+        Debug.Log("UI Found are: " + UIElementFromArray);
+
+        foreach(UiElementFollow uiElement in UIElementFromArray)
+        {
+            UIElements.Add(uiElement.gameObject);
+        }
     }
 
     public IEnumerator checkState()
@@ -39,18 +61,28 @@ public class TileDisabler : MonoBehaviour, IPointerExitHandler, IPointerEnterHan
 
     private void OnMouseExit()
     {
-        hoverstate = Hoverstate.inactive;
+        if (!isSelected)
+        {
+            hoverstate = Hoverstate.inactive;
+        }
+        else
+        {
+            hoverstate = Hoverstate.active;
+        }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    private void OnMouseDown()
     {
-        Debug.Log("Pointer enter");
-        hoverstate = Hoverstate.active;
+        isSelected = true;
+        OnSelected();
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    private void OnSelected()
     {
-        Debug.Log("Pointer exit");
-        hoverstate = Hoverstate.inactive;
+        for (int i = 0; i < UIElements.Count; i++)
+        {
+            UIElements[i].GetComponent<UiElementFollow>().followMouse();
+        }
+        isSelected = false;
     }
 }

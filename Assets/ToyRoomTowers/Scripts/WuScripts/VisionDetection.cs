@@ -5,9 +5,9 @@ using System.Linq;
 
 public class VisionDetection : MonoBehaviour
 {
+    int layer_mask;
     public TowerBehaviour owner;
 
-    int layer_mask;
     public void OnEnable()
     {
         owner = GetComponentInParent<TowerBehaviour>();
@@ -58,21 +58,6 @@ public class VisionDetection : MonoBehaviour
                 }
             }
         }
-
-        //for (int i = 0; i < colliders.Length; i++)
-        //{
-        //    var detected = colliders[i];
-
-        //    //Debug.Log(colliders.Length);
-
-        //    //Debug.Log(colliders[i].gameObject.name + "is active: " + colliders[i].gameObject.activeSelf);
-
-        //    if (!ownerList.Contains(detected.gameObject))
-        //    {
-        //        Debug.Log("colliders length is " + colliders.Length);
-        //        ownerList.Remove(detected.gameObject);
-        //    }
-        //}
     }
 
     private void OnTriggerExit(Collider other)
