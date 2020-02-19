@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TileDisabler : MonoBehaviour
 {
-    public enum Hoverstate { active, inactive }
+    public enum Hoverstate { active, selected, inactive }
     public Hoverstate hoverstate;
 
     private BuildAreaManager owner;
@@ -28,7 +28,7 @@ public class TileDisabler : MonoBehaviour
 
         Debug.Log("UI Found are: " + UIElementFromArray);
 
-        foreach(UiElementFollow uiElement in UIElementFromArray)
+        foreach (UiElementFollow uiElement in UIElementFromArray)
         {
             UIElements.Add(uiElement.gameObject);
         }
@@ -52,6 +52,11 @@ public class TileDisabler : MonoBehaviour
                 GetComponent<MeshRenderer>().enabled = true;
                 break;
 
+            case Hoverstate.selected:
+
+                GetComponent<MeshRenderer>().enabled = true;
+                break;
+
             case Hoverstate.inactive:
 
                 GetComponent<MeshRenderer>().enabled = false;
@@ -67,22 +72,33 @@ public class TileDisabler : MonoBehaviour
         }
         else
         {
-            hoverstate = Hoverstate.active;
+            if (owner.selectedTile == null)
+            {
+                Debug.Log("Activation Mesh");
+                hoverstate = Hoverstate.active;
+            }
         }
     }
 
     private void OnMouseDown()
     {
-        isSelected = true;
-        OnSelected();
+        if (owner.selectedTile == null)
+        {
+            isSelected = true;
+            hoverstate = Hoverstate.selected;
+            OnSelected();
+        }
     }
 
     private void OnSelected()
     {
+        owner.selectedTile = this.gameObject;
+        owner.noSelection = false;
+
         for (int i = 0; i < UIElements.Count; i++)
         {
+            UIElements[i].GetComponent<UiElementFollow>().gameObject.SetActive(true);
             UIElements[i].GetComponent<UiElementFollow>().followMouse();
         }
-        isSelected = false;
     }
 }

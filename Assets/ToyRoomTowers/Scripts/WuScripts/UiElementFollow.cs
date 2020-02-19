@@ -9,20 +9,16 @@ public class UiElementFollow : MonoBehaviour
 
     public Vector2 offset;
 
-    public GameObject marker;
     // Start is called before the first frame update
     void Start()
     {
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, marker.transform.position, myCanvas.worldCamera, out offset);
-        followMouse();
+        //this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         //transform.position = Input.mousePosition;
-
-
     }
 
     private void OnEnable()
@@ -34,7 +30,6 @@ public class UiElementFollow : MonoBehaviour
     public void followMouse()
     {
         Vector2 pos;
-
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, myCanvas.worldCamera, out pos);
 

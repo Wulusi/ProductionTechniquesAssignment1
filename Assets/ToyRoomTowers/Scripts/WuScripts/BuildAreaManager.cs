@@ -5,12 +5,11 @@ using UnityEngine;
 public class BuildAreaManager : MonoBehaviour
 {
     public List<GameObject> buildableTiles = new List<GameObject>();
-
+    public GameObject selectedTile;
     public Material highlightMaterial;
-
     public string BuildableTileMask;
+    public bool noSelection;
 
-    // Start is called before the first frame update
     void Start()
     {
         DisableSprites();
@@ -23,21 +22,31 @@ public class BuildAreaManager : MonoBehaviour
         {
             buildableTiles.Add(transform.GetChild(i).gameObject);
             transform.GetChild(i).gameObject.GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.inactive;
+            noSelection = true;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public IEnumerator _detectRay()
     {
-        while (true)
+        while (noSelection)
         {
             detectRay();
             yield return null;
+        }
+
+        while (true)
+        {
+            ResetSelection();
+            yield return null;
+        }
+    }
+
+    public void SelectedTile(GameObject _selectedTile)
+    {
+        selectedTile = _selectedTile;
+        if (selectedTile != null)
+        {
+            selectedTile.GetComponent<MeshRenderer>().material = highlightMaterial;
         }
     }
 
@@ -51,8 +60,8 @@ public class BuildAreaManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            //if (buildableTiles.Contains(hit.collider.gameObject))
-            //print(hit.collider.name);
+
+            print("ray hit " + hit.collider.name);
             if (hit.collider.GetComponent<TileDisabler>())
             {
                 hit.collider.gameObject.GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.active;
@@ -70,6 +79,17 @@ public class BuildAreaManager : MonoBehaviour
         for (int i = 0; i < buildableTiles.Count; i++)
         {
             buildableTiles[i].GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.inactive;
+        }
+    }
+
+    public void ResetSelection()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            DisableSprites();
+            StopCoroutine(_detectRay());
+            StartCoroutine(_detectRay());
+            SelectedTile(null);
         }
     }
 }

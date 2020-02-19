@@ -41,7 +41,7 @@ public class VisionDetection : MonoBehaviour
 
         }
 
-        Debug.Log("array is " + colliders.Length + " list is " + ownerList.Count);
+        //Debug.Log("array is " + colliders.Length + " list is " + ownerList.Count);
 
         for (int i = 0; i <= colliders.Length; i++)
         {
