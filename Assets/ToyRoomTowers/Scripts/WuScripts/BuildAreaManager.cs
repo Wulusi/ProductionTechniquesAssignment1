@@ -5,15 +5,18 @@ using UnityEngine;
 public class BuildAreaManager : MonoBehaviour
 {
     public List<GameObject> buildableTiles = new List<GameObject>();
+    public List<GameObject> UIElements = new List<GameObject>();
     public GameObject selectedTile;
     public Material highlightMaterial;
     public string BuildableTileMask;
     public bool noSelection;
 
+
     void Start()
     {
         DisableSprites();
         StartCoroutine(_detectRay());
+        GetUIElements();
     }
 
     void DisableSprites()
@@ -28,14 +31,12 @@ public class BuildAreaManager : MonoBehaviour
 
     public IEnumerator _detectRay()
     {
-        while (noSelection)
-        {
-            detectRay();
-            yield return null;
-        }
-
         while (true)
         {
+            if (noSelection)
+            {
+                detectRay();
+            }
             ResetSelection();
             yield return null;
         }
@@ -87,9 +88,38 @@ public class BuildAreaManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             DisableSprites();
-            StopCoroutine(_detectRay());
-            StartCoroutine(_detectRay());
+            DisableUI();
             SelectedTile(null);
+        }
+    }
+
+    private void GetUIElements()
+    {
+        var UIElementFromArray = GameObject.FindObjectsOfType<UiElementFollow>();
+
+        Debug.Log("UI Found are: " + UIElementFromArray);
+
+        foreach (UiElementFollow uiElement in UIElementFromArray)
+        {
+            UIElements.Add(uiElement.gameObject);
+        }
+    }
+
+    public void ActivateUI()
+    {
+        for (int i = 0; i < UIElements.Count; i++)
+        {
+            UIElements[i].GetComponent<UiElementFollow>().gameObject.SetActive(true);
+            UIElements[i].GetComponent<UiElementFollow>().followMouse();
+        }
+    }
+
+    public void DisableUI()
+    {
+        for (int i = 0; i < UIElements.Count; i++)
+        {
+            UIElements[i].GetComponent<UiElementFollow>().gameObject.SetActive(false);
+            //UIElements[i].GetComponent<UiElementFollow>().followMouse();
         }
     }
 }

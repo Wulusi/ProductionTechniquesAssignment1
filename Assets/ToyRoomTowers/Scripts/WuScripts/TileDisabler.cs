@@ -10,8 +10,6 @@ public class TileDisabler : MonoBehaviour
     public Hoverstate hoverstate;
 
     private BuildAreaManager owner;
-    public List<GameObject> UIElements = new List<GameObject>();
-
     bool isSelected;
 
     public void Start()
@@ -19,19 +17,6 @@ public class TileDisabler : MonoBehaviour
         StartCoroutine(checkState());
         owner = GetComponentInParent<BuildAreaManager>();
         isSelected = false;
-        GetUIElements();
-    }
-
-    private void GetUIElements()
-    {
-        var UIElementFromArray = GameObject.FindObjectsOfType<UiElementFollow>();
-
-        Debug.Log("UI Found are: " + UIElementFromArray);
-
-        foreach (UiElementFollow uiElement in UIElementFromArray)
-        {
-            UIElements.Add(uiElement.gameObject);
-        }
     }
 
     public IEnumerator checkState()
@@ -94,11 +79,7 @@ public class TileDisabler : MonoBehaviour
     {
         owner.selectedTile = this.gameObject;
         owner.noSelection = false;
-
-        for (int i = 0; i < UIElements.Count; i++)
-        {
-            UIElements[i].GetComponent<UiElementFollow>().gameObject.SetActive(true);
-            UIElements[i].GetComponent<UiElementFollow>().followMouse();
-        }
+        //Activate this on BuildAreaManager
+        owner.ActivateUI();
     }
 }

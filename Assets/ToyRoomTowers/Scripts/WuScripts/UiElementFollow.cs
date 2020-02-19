@@ -12,7 +12,7 @@ public class UiElementFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class UiElementFollow : MonoBehaviour
         //transform.position = Input.mousePosition;
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         myCanvas = GetComponentInParent<Canvas>();
         followMouse();
@@ -34,5 +34,10 @@ public class UiElementFollow : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, myCanvas.worldCamera, out pos);
 
         transform.position = myCanvas.transform.TransformPoint(pos + offset);
+    }
+
+    public void Disable()
+    {
+        this.gameObject.SetActive(false);
     }
 }
