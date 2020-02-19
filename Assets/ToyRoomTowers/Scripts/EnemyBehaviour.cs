@@ -7,22 +7,28 @@ public class EnemyBehaviour : MonoBehaviour
 {
 
     public NavMeshAgent navAgent;
-    public List<GameObject> WayPoints = new List<GameObject>();
+    //TO DO: make modular destination selection system
+    public Transform DestinationMarker;
     // Start is called before the first frame update
     void Start()
     {
-        GoToSpot();
+        StartCoroutine(Countdown(0.1f));
     }
 
     void GoToSpot()
     {
-        navAgent.SetDestination(WayPoints[0].transform.position);
-
+        navAgent.SetDestination(DestinationMarker.position);
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator Countdown(float duration)
     {
-        
+        float totalTime = 0;
+        while (totalTime <= duration)
+        {
+            //countdownImage.fillAmount = totalTime / duration;
+            totalTime += Time.deltaTime;
+            yield return null;
+        }
+        GoToSpot();
     }
 }

@@ -5,21 +5,24 @@ using UnityEngine;
 public class BuildAreaManager : MonoBehaviour
 {
     public List<GameObject> buildableTiles = new List<GameObject>();
+    public List<GameObject> removedTiles = new List<GameObject>();
     public List<GameObject> UIElements = new List<GameObject>();
     public GameObject selectedTile;
     public Material highlightMaterial;
     public string BuildableTileMask;
     public bool noSelection;
 
+    ObjectPooler objectPooler;
 
-    void Start()
+    private void Start()
     {
         DisableSprites();
         StartCoroutine(_detectRay());
         GetUIElements();
+        objectPooler = ObjectPooler.Instance;
     }
 
-    void DisableSprites()
+    private void DisableSprites()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -29,7 +32,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
-    public IEnumerator _detectRay()
+    private IEnumerator _detectRay()
     {
         while (true)
         {
@@ -51,7 +54,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
-    void detectRay()
+    private void detectRay()
     {
         Ray ray;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -61,7 +64,6 @@ public class BuildAreaManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-
             print("ray hit " + hit.collider.name);
             if (hit.collider.GetComponent<TileDisabler>())
             {
@@ -75,7 +77,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
-    void disableOverlay()
+    private void disableOverlay()
     {
         for (int i = 0; i < buildableTiles.Count; i++)
         {
@@ -91,6 +93,13 @@ public class BuildAreaManager : MonoBehaviour
             DisableUI();
             SelectedTile(null);
         }
+    }
+
+    public void ManualReset()
+    {
+        DisableSprites();
+        DisableUI();
+        SelectedTile(null);
     }
 
     private void GetUIElements()
@@ -120,6 +129,28 @@ public class BuildAreaManager : MonoBehaviour
         {
             UIElements[i].GetComponent<UiElementFollow>().gameObject.SetActive(false);
             //UIElements[i].GetComponent<UiElementFollow>().followMouse();
+        }
+    }
+
+    public void BuildAtLocation(GameObject tower)
+    {
+        Debug.Log(tower.name + " Built!");
+        objectPooler.SpawnFromPool(tower.name, selectedTile.transform.position, Quaternion.identity);
+        DisableUI();
+        RemoveFromList(selectedTile.gameObject);
+
+        //TO DO: countdown timer for building towers
+        ManualReset();
+    }
+
+    public void RemoveFromList(GameObject objToRemove)
+    {
+        if (buildableTiles.Contains(objToRemove))
+        {
+            Debug.Log("Removing " + objToRemove.name);
+            objToRemove.SetActive(false);
+            buildableTiles.Remove(objToRemove);
+            removedTiles.Add(objToRemove);
         }
     }
 }
