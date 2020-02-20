@@ -7,6 +7,9 @@ public abstract class TowerBehaviour : MonoBehaviour
     public enum TurretState { searching, firingtarget };
     public TurretState turretState;
 
+    [SerializeField]
+    private GameObject projectilePrefab;
+
     public GameObject VisionRadius, CurrentTarget;
     public List<GameObject> targets = new List<GameObject>();
 
@@ -95,10 +98,14 @@ public abstract class TowerBehaviour : MonoBehaviour
 
     public virtual void LookAtTarget()
     {
-        Vector3 targetDir = targets[0].transform.position - transform.position;
-        CurrentTarget = targets[0];
-        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
-        barrel.rotation = Quaternion.LookRotation(newDir.normalized);
+        CheckTarget();
+        if (targets[0])
+        {
+            Vector3 targetDir = targets[0].transform.position - transform.position;
+            CurrentTarget = targets[0];
+            Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
+            barrel.rotation = Quaternion.LookRotation(newDir.normalized);
+        }
     }
 
 
@@ -117,9 +124,21 @@ public abstract class TowerBehaviour : MonoBehaviour
 
     public virtual void FireAtTarget()
     {
-        //Fire bullet code here
+        if (projectilePrefab && !IsInvoking("TestFire"))
+        {
+            Invoke("TestFire", 0.2f);
+        }
 
         StartCoroutine(Countdown(1f));
+    }
+
+    private void TestFire()
+    {
+        CheckTarget();
+        if (CurrentTarget)
+        {
+            Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(CurrentTarget.transform.position - transform.position));
+        }
     }
 
     public IEnumerator Countdown(float duration)

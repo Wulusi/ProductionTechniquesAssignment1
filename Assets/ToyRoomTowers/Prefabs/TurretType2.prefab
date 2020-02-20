@@ -668,6 +668,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretState: 0
+  projectilePrefab: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
+    type: 3}
   VisionRadius: {fileID: 4826137186562642079}
   CurrentTarget: {fileID: 0}
   targets: []
