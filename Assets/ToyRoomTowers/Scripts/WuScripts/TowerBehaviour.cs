@@ -38,12 +38,6 @@ public abstract class TowerBehaviour : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public IEnumerator ActivateTurret()
     {
         while (true)
@@ -108,19 +102,24 @@ public abstract class TowerBehaviour : MonoBehaviour
         else if (!CurrentTarget.activeSelf)
         {
             targets.Remove(CurrentTarget);
+            turretState = TurretState.searching;
         }
     }
 
     public virtual void LookAtTarget()
     {
         CheckTarget();
-        if (targets[0])
+        if (CurrentTarget)
         {
-            Vector3 targetDir = targets[0].transform.position - barrel.transform.position;
+            Vector3 targetDir = CurrentTarget.transform.position - barrel.transform.position;
 
             CurrentTarget = targets[0];
             Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
             barrel.rotation = Quaternion.LookRotation(newDir.normalized);
+        }
+        else
+        {
+            turretState = TurretState.searching;
         }
     }
 
@@ -145,7 +144,11 @@ public abstract class TowerBehaviour : MonoBehaviour
         //}
         //TestFire();
         //StartCoroutine(Countdown(1f));
+
+        //Rotate target at the same time when firing at the target as well
         LookAtTarget();
+
+        //Invoke custom event with a custom duration delay that counts up
         CoolDown(0.75f, fireAtTarget);
     }
 

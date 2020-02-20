@@ -51,8 +51,6 @@ public class EnemyBehaviour : MonoBehaviour
         navAgent.SetDestination(DestinationMarker.position);
     }
 
-
-
     private IEnumerator Countdown(float duration)
     {
         float totalTime = 0;
