@@ -106,12 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e272993bfab65c4b858d5a4a9a8e1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 1073741824
+  projectileParams: {fileID: 11400000, guid: 746e4f1defa427142a72054f8e031a7b, type: 2}
+  enemyLayer: 30
   damageValue: 2
   projectileSpeed: 600
   projectileLifetime: 1
+  isFirstSpawned: 0
 --- !u!54 &622324275815797825
 Rigidbody:
   m_ObjectHideFlags: 0

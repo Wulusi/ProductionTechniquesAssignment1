@@ -30539,11 +30539,11 @@ MonoBehaviour:
   - tag: TurretType1
     prefab: {fileID: 3174998075074560853, guid: 770a3f0abd9f16c46a85045ed228ad68,
       type: 3}
-    size: 10
+    size: 100
   - tag: TurretType2
     prefab: {fileID: 7995641816324053541, guid: 4de24c8618740924dbd26e1a48362c77,
       type: 3}
-    size: 10
+    size: 100
   - tag: BaseEnemy
     prefab: {fileID: 1804326185692691157, guid: 9ce3aa9adfa1c5d46b33811368449a0b,
       type: 3}
