@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class UnityCustomEvent : UnityEngine.Events.UnityEvent
+{
+
+}
+
 public abstract class TowerBehaviour : MonoBehaviour
 {
     public enum TurretState { searching, firingtarget };
@@ -13,7 +19,13 @@ public abstract class TowerBehaviour : MonoBehaviour
     public GameObject VisionRadius, CurrentTarget;
     public List<GameObject> targets = new List<GameObject>();
 
+    public delegate void CustomEvent();
+    CustomEvent customEvent;
+
+    public UnityCustomEvent fireAtTarget;
+
     public Transform barrel;
+    private ObjectPooler objectPooler;
 
     public float rotateSpeed;
     public bool routineActive;
@@ -23,6 +35,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     public virtual void Start()
     {
         StartCoroutine(ActivateTurret());
+        objectPooler = ObjectPooler.Instance;
     }
 
     // Update is called once per frame
@@ -39,7 +52,6 @@ public abstract class TowerBehaviour : MonoBehaviour
             CheckTarget();
             yield return null;
         }
-
     }
 
     public virtual void TurretStates()
@@ -53,10 +65,13 @@ public abstract class TowerBehaviour : MonoBehaviour
                     LookAtTarget();
 
                     //Debug.Log("Target Acquired");
-                    Vector3 Dir = (CurrentTarget.transform.position - transform.position);
-                    float angle = Vector3.Angle(Dir, this.transform.forward);
+                    Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
 
-                    if (angle < 15)
+                    //Vector3 TargetDir = (barrel.transform.forward - this.transform.forward);
+                    float angle = Vector3.Angle(Dir, barrel.transform.forward);
+
+                    Debug.Log("angle is " + angle);
+                    if (angle <= 5)
                     {
                         turretState = TurretState.firingtarget;
                     }
@@ -101,13 +116,13 @@ public abstract class TowerBehaviour : MonoBehaviour
         CheckTarget();
         if (targets[0])
         {
-            Vector3 targetDir = targets[0].transform.position - transform.position;
+            Vector3 targetDir = targets[0].transform.position - barrel.transform.position;
+
             CurrentTarget = targets[0];
             Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
             barrel.rotation = Quaternion.LookRotation(newDir.normalized);
         }
     }
-
 
     public virtual void SearchTarget()
     {
@@ -124,24 +139,33 @@ public abstract class TowerBehaviour : MonoBehaviour
 
     public virtual void FireAtTarget()
     {
-        if (projectilePrefab && !IsInvoking("TestFire"))
-        {
-            Invoke("TestFire", 0.2f);
-        }
-
-        StartCoroutine(Countdown(1f));
+        //if (projectilePrefab && !IsInvoking("TestFire"))
+        //{
+        //    Invoke("TestFire", 0.2f);
+        //}
+        //TestFire();
+        //StartCoroutine(Countdown(1f));
+        LookAtTarget();
+        CoolDown(0.75f, fireAtTarget);
     }
 
-    private void TestFire()
+    public void TestFire()
     {
         CheckTarget();
         if (CurrentTarget)
         {
-            Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(CurrentTarget.transform.position - transform.position));
+            objectPooler.SpawnFromPool(projectilePrefab.name, barrel.transform.position, barrel.transform.rotation);
+            //Instead of instantiating a projectile, spawn it from a pool of previously spawned objects 
+            //Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(CurrentTarget.transform.position - transform.position));
         }
     }
 
-    public IEnumerator Countdown(float duration)
+    public void CoolDown(float duration, UnityCustomEvent eventToInvoke)
+    {
+        StartCoroutine(Countdown(duration, eventToInvoke));
+    }
+
+    public IEnumerator Countdown(float duration, UnityCustomEvent eventToInvoke)
     {
         if (!routineActive)
         {
@@ -153,7 +177,7 @@ public abstract class TowerBehaviour : MonoBehaviour
                 yield return null;
             }
             routineActive = false;
-            turretState = TurretState.searching;
+            eventToInvoke?.Invoke();
         }
     }
 }

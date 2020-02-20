@@ -30296,6 +30296,10 @@ MonoBehaviour:
     prefab: {fileID: 1804326185692691157, guid: 8f6f34d9e90f64c439a8b96831a5497a,
       type: 3}
     size: 30
+  - tag: Projectile
+    prefab: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
+      type: 3}
+    size: 100
   targetParent: {fileID: 1042045933}
 --- !u!4 &1042045933
 Transform:
@@ -31003,16 +31007,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1168869695298836507, guid: 5172a45069fbc404f8f534db9c2f4a94,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 34676bf8ea4a5614f98ecd47bdda0e3a, type: 2}
     - target: {fileID: 935666586229486029, guid: 5172a45069fbc404f8f534db9c2f4a94,
         type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1168869695298836507, guid: 5172a45069fbc404f8f534db9c2f4a94,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 34676bf8ea4a5614f98ecd47bdda0e3a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5172a45069fbc404f8f534db9c2f4a94, type: 3}
 --- !u!4 &1068976764 stripped
@@ -35088,6 +35092,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 935666586229486029, guid: 5172a45069fbc404f8f534db9c2f4a94,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1168869695298836507, guid: 5172a45069fbc404f8f534db9c2f4a94,
         type: 3}
       propertyPath: m_Enabled
@@ -35098,11 +35107,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 34676bf8ea4a5614f98ecd47bdda0e3a, type: 2}
-    - target: {fileID: 935666586229486029, guid: 5172a45069fbc404f8f534db9c2f4a94,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5172a45069fbc404f8f534db9c2f4a94, type: 3}
 --- !u!4 &1161171594 stripped

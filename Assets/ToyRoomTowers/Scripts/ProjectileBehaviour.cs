@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ProjectileBehaviour : MonoBehaviour
+public class ProjectileBehaviour : MonoBehaviour, PooledObjInterface
 {
     /// <summary>
     /// The layer of object this projectile is looking to hit
     /// </summary>
     [SerializeField]
-    [Range(0,31)]
+    [Range(0, 31)]
     private int enemyLayer = 30;
 
     /// <summary>
@@ -27,6 +27,12 @@ public class ProjectileBehaviour : MonoBehaviour
     /// </summary>
     public float projectileLifetime = 1;
 
+    /// <summary>
+    /// If this is the first time that the projectile is spawned in the world, if it isn't do not activate the interface
+    /// again
+    /// </summary>
+    public bool isFirstSpawned;
+
     private Rigidbody rb;
 
     private void Awake()
@@ -41,7 +47,9 @@ public class ProjectileBehaviour : MonoBehaviour
     private async Task KillProjectile()
     {
         await Task.Delay((int)(projectileLifetime * 1000));
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        //Instead of destroy send projectile back into Object Pool
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -59,11 +67,21 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == enemyLayer)
+        if (other.gameObject.layer == enemyLayer)
         {
             other.GetComponent<EnemyBehaviour>().LoseHP(damageValue);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            //Instead of destroy send projectile back into Object Pool
+            this.gameObject.SetActive(false);
         }
-        
+
+    }
+
+    public void OnPooledObjSpawn()
+    {
+        if (isFirstSpawned)
+        {
+            KillProjectile();
+        }
     }
 }
