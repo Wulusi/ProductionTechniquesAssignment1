@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [System.Serializable]
 public class UnityCustomEvent : UnityEngine.Events.UnityEvent
 {
@@ -58,16 +59,18 @@ public abstract class TowerBehaviour : MonoBehaviour
                 {
                     LookAtTarget();
 
-                    //Debug.Log("Target Acquired");
-                    Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
-
-                    //Vector3 TargetDir = (barrel.transform.forward - this.transform.forward);
-                    float angle = Vector3.Angle(Dir, barrel.transform.forward);
-
-                    Debug.Log("angle is " + angle);
-                    if (angle <= 5)
+                    if (CurrentTarget)
                     {
-                        turretState = TurretState.firingtarget;
+                        //Debug.Log("Target Acquired");
+                        Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
+                        float angle = Vector3.Angle(Dir, barrel.transform.forward);
+                        //Vector3 TargetDir = (barrel.transform.forward - this.transform.forward);
+
+                        //Debug.Log("angle is " + angle);
+                        if (angle <= 5)
+                        {
+                            turretState = TurretState.firingtarget;
+                        }
                     }
                 }
                 else
