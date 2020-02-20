@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private Text Health;
 
-    [SerializeField]
-    private float CurrentHealth, MaxHealth;
+    //[SerializeField]
+    public float CurrentHealth, MaxHealth;
 
     [SerializeField]
     private GameObject GameOver;
@@ -17,20 +18,36 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameOver.SetActive(false);
         CurrentHealth = MaxHealth;
+        StartCoroutine(CheckState());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator CheckState()
     {
-
+        while (true)
+        {
+            UpdateUI();
+            CheckGameState();
+            yield return null;
+        }
     }
 
     private void CheckGameState()
     {
-        if(CurrentHealth < 0)
+        if(CurrentHealth <= 0)
         {
-            //Lose State Here;
+            GameOver.SetActive(true);
         }
+    }
+
+    private void UpdateUI()
+    {
+        Health.text = CurrentHealth.ToString();
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
