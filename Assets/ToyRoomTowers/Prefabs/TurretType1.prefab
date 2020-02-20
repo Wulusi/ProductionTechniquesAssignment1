@@ -217,9 +217,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretState: 0
+  projectilePrefab: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
+    type: 3}
   VisionRadius: {fileID: 1816250863}
   CurrentTarget: {fileID: 0}
   targets: []
+  fireAtTarget:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2260809942919054055}
+        m_MethodName: TestFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityCustomEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   barrel: {fileID: 2439406835534115137}
   rotateSpeed: 1
   routineActive: 0

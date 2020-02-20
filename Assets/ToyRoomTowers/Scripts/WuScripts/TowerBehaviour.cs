@@ -2,15 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class UnityCustomEvent : UnityEngine.Events.UnityEvent
+{
+
+}
+
 public abstract class TowerBehaviour : MonoBehaviour
 {
     public enum TurretState { searching, firingtarget };
     public TurretState turretState;
 
+    [SerializeField]
+    private GameObject projectilePrefab;
+
     public GameObject VisionRadius, CurrentTarget;
     public List<GameObject> targets = new List<GameObject>();
 
+    public delegate void CustomEvent();
+    CustomEvent customEvent;
+
+    public UnityCustomEvent fireAtTarget;
+
     public Transform barrel;
+    private ObjectPooler objectPooler;
 
     public float rotateSpeed;
     public bool routineActive;
@@ -20,12 +35,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     public virtual void Start()
     {
         StartCoroutine(ActivateTurret());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        objectPooler = ObjectPooler.Instance;
     }
 
     public IEnumerator ActivateTurret()
@@ -36,7 +46,6 @@ public abstract class TowerBehaviour : MonoBehaviour
             CheckTarget();
             yield return null;
         }
-
     }
 
     public virtual void TurretStates()
@@ -50,10 +59,13 @@ public abstract class TowerBehaviour : MonoBehaviour
                     LookAtTarget();
 
                     //Debug.Log("Target Acquired");
-                    Vector3 Dir = (CurrentTarget.transform.position - transform.position);
-                    float angle = Vector3.Angle(Dir, this.transform.forward);
+                    Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
 
-                    if (angle < 15)
+                    //Vector3 TargetDir = (barrel.transform.forward - this.transform.forward);
+                    float angle = Vector3.Angle(Dir, barrel.transform.forward);
+
+                    Debug.Log("angle is " + angle);
+                    if (angle <= 5)
                     {
                         turretState = TurretState.firingtarget;
                     }
@@ -90,17 +102,26 @@ public abstract class TowerBehaviour : MonoBehaviour
         else if (!CurrentTarget.activeSelf)
         {
             targets.Remove(CurrentTarget);
+            turretState = TurretState.searching;
         }
     }
 
     public virtual void LookAtTarget()
     {
-        Vector3 targetDir = targets[0].transform.position - transform.position;
-        CurrentTarget = targets[0];
-        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
-        barrel.rotation = Quaternion.LookRotation(newDir.normalized);
-    }
+        CheckTarget();
+        if (CurrentTarget)
+        {
+            Vector3 targetDir = CurrentTarget.transform.position - barrel.transform.position;
 
+            CurrentTarget = targets[0];
+            Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, rotateSpeed * Time.deltaTime, 0.0f);
+            barrel.rotation = Quaternion.LookRotation(newDir.normalized);
+        }
+        else
+        {
+            turretState = TurretState.searching;
+        }
+    }
 
     public virtual void SearchTarget()
     {
@@ -117,12 +138,37 @@ public abstract class TowerBehaviour : MonoBehaviour
 
     public virtual void FireAtTarget()
     {
-        //Fire bullet code here
+        //if (projectilePrefab && !IsInvoking("TestFire"))
+        //{
+        //    Invoke("TestFire", 0.2f);
+        //}
+        //TestFire();
+        //StartCoroutine(Countdown(1f));
 
-        StartCoroutine(Countdown(1f));
+        //Rotate target at the same time when firing at the target as well
+        LookAtTarget();
+
+        //Invoke custom event with a custom duration delay that counts up
+        CoolDown(0.75f, fireAtTarget);
     }
 
-    public IEnumerator Countdown(float duration)
+    public void TestFire()
+    {
+        CheckTarget();
+        if (CurrentTarget)
+        {
+            objectPooler.SpawnFromPool(projectilePrefab.name, barrel.transform.position, barrel.transform.rotation);
+            //Instead of instantiating a projectile, spawn it from a pool of previously spawned objects 
+            //Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(CurrentTarget.transform.position - transform.position));
+        }
+    }
+
+    public void CoolDown(float duration, UnityCustomEvent eventToInvoke)
+    {
+        StartCoroutine(Countdown(duration, eventToInvoke));
+    }
+
+    public IEnumerator Countdown(float duration, UnityCustomEvent eventToInvoke)
     {
         if (!routineActive)
         {
@@ -134,7 +180,7 @@ public abstract class TowerBehaviour : MonoBehaviour
                 yield return null;
             }
             routineActive = false;
-            turretState = TurretState.searching;
+            eventToInvoke?.Invoke();
         }
     }
 }
