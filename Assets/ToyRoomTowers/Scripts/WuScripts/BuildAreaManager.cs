@@ -64,7 +64,7 @@ public class BuildAreaManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            print("ray hit " + hit.collider.name);
+            //print("ray hit " + hit.collider.name);
             if (hit.collider.GetComponent<TileDisabler>())
             {
                 hit.collider.gameObject.GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.active;
