@@ -16,6 +16,7 @@ public class TileDisabler : MonoBehaviour
         isSelected = false;
     }
 
+    //Main loop for tile disabler, each tile has 3 states and are cycled through based on the selection
     public IEnumerator checkState()
     {
         while (true)

@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //Current temporary game manager
+    public float CurrentHealth, MaxHealth;
+
     [SerializeField]
     private Text Health;
-
-    //[SerializeField]
-    public float CurrentHealth, MaxHealth;
 
     [SerializeField]
     private GameObject GameOver;

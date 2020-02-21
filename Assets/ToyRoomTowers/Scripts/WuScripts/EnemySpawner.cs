@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     ObjectPooler objectPooler;
 
     public Transform[] destinationMarkers;

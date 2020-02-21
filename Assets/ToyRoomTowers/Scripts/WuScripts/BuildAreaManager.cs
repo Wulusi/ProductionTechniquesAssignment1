@@ -22,6 +22,8 @@ public class BuildAreaManager : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
     }
 
+    //Disables mesh rendered of the buildable areas so that it appears transparent and invisible until the mouse
+    //is hovered over the tiles
     private void DisableSprites()
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -32,6 +34,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
+    //Main functional loop for this script, runs a if statement that detects a ray fired from the mouse's position
     private IEnumerator _detectRay()
     {
         while (true)
@@ -45,6 +48,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
+    //Tile selection function used by tile Disabler
     public void SelectedTile(GameObject _selectedTile)
     {
         selectedTile = _selectedTile;
@@ -54,6 +58,7 @@ public class BuildAreaManager : MonoBehaviour
         }
     }
 
+    //Main function that is used to detect mouse selection input and hover over tiles to change their states
     private void detectRay()
     {
         Ray ray;
@@ -65,6 +70,7 @@ public class BuildAreaManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             //print("ray hit " + hit.collider.name);
+            //If ray hits a tile containing the component TileDisabler, then turn the selected tile into an activated state
             if (hit.collider.GetComponent<TileDisabler>())
             {
                 hit.collider.gameObject.GetComponent<TileDisabler>().hoverstate = TileDisabler.Hoverstate.active;

@@ -52,7 +52,7 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
         //Reference to the owner Towerbehaviour script
         var ownerList = owner.targets;
 
-        //Add all elements detected 
+        //Add all elements detected to a reference list in the parent tower object
         foreach (Collider detected in colliders)
         {
             if (!ownerList.Contains(detected.gameObject))
@@ -61,6 +61,11 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
             }
         }
 
+        //If there is a change in the number of gameObjects detected in the
+        //array of target colliders versus the list that's in the parent
+        //then this means that either a target has been destroy by the current tower or by a neighboring tower
+        //remove the destroyed target from the tracking list on the parent towerbehaviour script, if the list only
+        //have 1 item left in it 
         for (int i = 0; i <= colliders.Length; i++)
         {
             if (colliders.Length != ownerList.Count)
@@ -76,10 +81,5 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
                 }
             }
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        owner.targets.Remove(other.gameObject);
     }
 }
