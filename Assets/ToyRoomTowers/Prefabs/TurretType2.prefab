@@ -89,7 +89,6 @@ GameObject:
   - component: {fileID: 3000074964224775027}
   - component: {fileID: 4681538888626655032}
   - component: {fileID: 8461842125568507}
-  - component: {fileID: 2820723689648332691}
   m_Layer: 31
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -158,19 +157,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2820723689648332691
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010491359258528732}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3168257711507102003
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +168,6 @@ GameObject:
   - component: {fileID: 5658496026386965129}
   - component: {fileID: 8894255027753283533}
   - component: {fileID: 1740614904174626031}
-  - component: {fileID: 8078022674041173531}
   m_Layer: 31
   m_Name: Cube
   m_TagString: Untagged
@@ -251,19 +236,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8078022674041173531
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3168257711507102003}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3975859438402096954
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  tower_Params: {fileID: 0}
 --- !u!1 &4907657944745596285
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +450,7 @@ SphereCollider:
   m_GameObject: {fileID: 4907657944745596285}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -570,9 +543,8 @@ GameObject:
   - component: {fileID: 3354039059918641457}
   - component: {fileID: 6293949567320956801}
   - component: {fileID: 3610833832095571499}
-  - component: {fileID: 8287377386958558480}
   - component: {fileID: 6744668868427635607}
-  - component: {fileID: 7558100591918747626}
+  - component: {fileID: 8002461706541951803}
   m_Layer: 31
   m_Name: TurretType2
   m_TagString: Untagged
@@ -641,20 +613,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &8287377386958558480
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995641816324053541}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &6744668868427635607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,12 +625,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469abd352db27e7419bfbfa93a4a6b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerParams: {fileID: 11400000, guid: af0a857645a38ec488e4865d050a243e, type: 2}
   turretState: 0
-  projectilePrefab: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
-    type: 3}
-  VisionRadius: {fileID: 4826137186562642079}
   CurrentTarget: {fileID: 0}
   targets: []
+  barrel: {fileID: 7143660792162084913}
   fireAtTarget:
     m_PersistentCalls:
       m_Calls:
@@ -689,11 +646,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityCustomEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  barrel: {fileID: 7143660792162084913}
-  rotateSpeed: 1
-  routineActive: 0
-  targetDir: {x: 0, y: 0, z: 0}
---- !u!208 &7558100591918747626
+  rotationSpeed: 0
+  fireRate: 0
+  projectilePrefab: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
+    type: 3}
+--- !u!208 &8002461706541951803
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

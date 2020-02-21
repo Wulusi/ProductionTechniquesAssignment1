@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class BaseTower : TowerBehaviour
 {
-    // Start is called before the first frame update
+    //Additional Tower Behaviour based on the base tower
     public override void Start()
     {
         base.Start();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 }

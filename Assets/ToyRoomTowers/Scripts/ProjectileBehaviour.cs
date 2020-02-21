@@ -6,27 +6,30 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    private sObj_projectile_Params projectileParams;
+
     /// <summary>
     /// The layer of object this projectile is looking to hit, defaults to 30 which is the "Enemies" layer
     /// </summary>
     [SerializeField]
     [Range(0, 31)]
-    private int enemyLayer = 30;
+    private int enemyLayer;
 
     /// <summary>
     /// The amount of damage this projectile deals (defaults to 2)
     /// </summary>
-    public float damageValue = 2;
+    public float damageValue;
 
     /// <summary>
     /// The speed at which this projectile travels
     /// </summary>
-    public float projectileSpeed = 10;
+    public float projectileSpeed;
 
     /// <summary>
     /// The amount of time in second that the projectile will be alive for (defaults to 1)
     /// </summary>
-    public float projectileLifetime = 1;
+    public float projectileLifetime;
 
     /// <summary>
     /// If this is the first time that the projectile is spawned in the world, if it isn't do not activate the interface
@@ -51,14 +54,25 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();       
+        GetDataParams();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
+        GetDataParams();
         KillProjectile(); //ignore this underline
     }
 
+    //Data Getter through Scritable Objects
+    private void GetDataParams()
+    {
+        enemyLayer = projectileParams._enemyLayer;
+        damageValue = projectileParams._damageValue;
+        projectileSpeed = projectileParams._projectileSpeed;
+        projectileLifetime = projectileParams._projectileLifetime;
+
+    }
 
     /// <summary>
     /// Asynchronous function that is called on Awake, this method kills the projectile after its lifetime expires
