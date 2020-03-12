@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ToyRoomTowers/Scenes/MainMenu.unity
-    guid: ffc941f31f6b46640af6385ccbdf3878
-  - enabled: 1
-    path: Assets/ToyRoomTowers/Scenes/Level1.unity
-    guid: acffb86d4dd22a44d81178b06c160476
-  - enabled: 1
     path: Assets/ToyRoomTowers/Scenes/Level1WuTest.unity
     guid: 95faf8b5cb5b8054c93e617876a1f743
   m_configObjects: {}

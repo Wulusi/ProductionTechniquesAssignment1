@@ -30,7 +30,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         healthValue -= damage;
 
-        if(healthValue <= 0)
+        if (healthValue <= 0)
         {
             KillEnemy();
         }
@@ -42,7 +42,7 @@ public class EnemyBehaviour : MonoBehaviour
     private void KillEnemy()
     {
         StopAllCoroutines();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 

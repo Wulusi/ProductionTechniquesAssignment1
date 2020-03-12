@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -35,6 +36,13 @@ public class EnemySpawner : MonoBehaviour
     {
         if (spawnCount < maxSpawnCount)
         {
+            Analytics.CustomEvent("enemy spanwed", new Dictionary<string, object>
+            {
+                {"enemy name", enemy.name },
+                {"time_elasped", Time.timeSinceLevelLoad }
+            }
+            );
+
             GameObject spawned = objectPooler.SpawnFromPool(enemy.name, this.transform.position, Quaternion.identity);
             spawned.GetComponent<EnemyBehaviour>().DestinationMarker = destinationMarkers[0];
             spawnCount++;

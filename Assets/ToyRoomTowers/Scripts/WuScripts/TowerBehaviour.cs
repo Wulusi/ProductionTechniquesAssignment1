@@ -34,7 +34,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     /// A reference a list of targets within range of the tower
     /// </summary>
     public List<GameObject> targets = new List<GameObject>();
-    
+
     /// <summary>
     /// Transform of the tip of barrel which the turret is pointing towards
     /// </summary>
@@ -122,7 +122,7 @@ public abstract class TowerBehaviour : MonoBehaviour
                         //Debug.Log("Target Acquired");
                         Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
                         float angle = Vector3.Angle(Dir, barrel.transform.forward);
-                      
+
                         //Debug.Log("angle is " + angle);
                         if (angle <= 5)
                         {
@@ -167,7 +167,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     public virtual void LookAtTarget()
     {
         CheckTarget();
-        if (CurrentTarget)
+        if (CurrentTarget && targets.Count > 0)
         {
             Vector3 targetDir = CurrentTarget.transform.position - barrel.transform.position;
 

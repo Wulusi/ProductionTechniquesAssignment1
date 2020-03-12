@@ -81,10 +81,13 @@ public class ObjectPooler : MonoBehaviour
         //the gameObject is taken out of from a Queue/Pool with tag within the poolDictionary
         GameObject gObjToSpawn = poolDictionary[tag].Dequeue();
 
-        gObjToSpawn.SetActive(true);
-        gObjToSpawn.transform.SetParent(targetParent);
-        gObjToSpawn.transform.position = pos;
-        gObjToSpawn.transform.rotation = rotation;
+        if (gObjToSpawn)
+        {
+            gObjToSpawn.SetActive(true);
+            gObjToSpawn.transform.SetParent(targetParent);
+            gObjToSpawn.transform.position = pos;
+            gObjToSpawn.transform.rotation = rotation;
+        }
 
 
         //Obtain reference to the component that contains interface save it as a variable and look at if it is null
